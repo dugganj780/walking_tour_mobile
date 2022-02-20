@@ -3,7 +3,6 @@ import Tour from "./tourCard";
 import Surface from "react-native-paper/src/components/Surface";
 
 const TourList = ({ props, action }) => {
-  console.log(props);
   let tourCards = props.map((m) => (
     <Surface key={m.uid} item xs={12} sm={6} md={4} lg={3} xl={2}>
       <Tour key={m.uid} tour={m} action={action} />

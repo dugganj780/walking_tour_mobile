@@ -14,7 +14,6 @@ const AllToursScreen = (props) => {
       for (let id in tour) {
         tours.push(tour[id]);
       }
-      console.log(tours);
       setTours(tours);
     });
   }, []);
