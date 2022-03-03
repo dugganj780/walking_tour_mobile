@@ -14,6 +14,7 @@ const TourUsageScreen = ({ route, navigation }) => {
   const [currentLat, setCurrentLat] = useState(0);
   const [currentLng, setCurrentLng] = useState(0);
   const [errorMsg, setErrorMsg] = useState(null);
+  const containerStyle = { backgroundColor: "white", padding: 20 };
   const { uid } = route.params;
   const tourId = uid;
 
@@ -46,11 +47,9 @@ const TourUsageScreen = ({ route, navigation }) => {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
       const lat = location.coords.latitude;
-      console.log("Step 1" + lat);
       const lng = location.coords.longitude;
-      console.log("Step 2" + lng);
       setCurrentLat(lat);
-      setCurrentLat(lng);
+      setCurrentLng(lng);
     })();
   }, []);
 
@@ -60,7 +59,7 @@ const TourUsageScreen = ({ route, navigation }) => {
     let lat = location.coords.latitude;
     let lng = location.coords.longitude;
     setCurrentLat(lat);
-    setCurrentLat(lng);
+    setCurrentLng(lng);
   }
 
   return (

@@ -20,24 +20,12 @@ export default function MapCard({ props, currentLat, currentLng }) {
   const [userMarkerVisible, setUserMarkerVisible] = useState(false);
   const [userLat, setUserLat] = useState(0);
   const [userLng, setUserLng] = useState(0);
+
   //const currentLat = currentLocation.currentLatLng.lat;
   //const currentLng = currentLocation.currentLatLng.lng;
-  /*
-  this.state = { 
-    mapRegion: {
-      latitude: userLat,
-      longitude: userLng,
-      latitudeDelta: 0.0022,
-      longitudeDelta: 0.0025,
-    },
-    markerCoordinate: {
-      latitude: userLat,
-      longitude: userLng,
-     }
- }
- */
 
   useEffect(() => {
+    console.log("Current Lat is " + currentLat);
     setUserLat(currentLat);
     setUserLng(currentLng);
     console.log("Latitude read is: " + userLat);
@@ -62,8 +50,6 @@ export default function MapCard({ props, currentLat, currentLng }) {
   }, []);
 
   function calloutPressHandler(props) {
-    setUserLat(currentLat);
-    setUserLng(currentLng);
     setActivePoi(props);
     setModalVisible(true);
 
@@ -90,9 +76,15 @@ export default function MapCard({ props, currentLat, currentLng }) {
         <MapView
           style={styles.map}
           loadingEnabled={true}
+          initialRegion={{
+            latitude: userLat,
+            longitude: userLng,
+            latitudeDelta: 0.0022,
+            longitudeDelta: 0.0025,
+          }}
           region={{
-            latitude: parseFloat(userLat),
-            longitude: parseFloat(userLng),
+            latitude: userLat,
+            longitude: userLng,
             latitudeDelta: 0.0022,
             longitudeDelta: 0.0025,
           }}
@@ -115,15 +107,13 @@ export default function MapCard({ props, currentLat, currentLng }) {
               </>
             );
           })}
-
-          <MapView.Marker
-            key={userLat}
-            //pinColor={"navy"}
-            coordinate={{
-              latitude: parseFloat(userLat),
-              longitude: parseFloat(userLng),
-            }}
-          />
+          {userMarkerVisible && (
+            <MapView.Marker
+              //key={userLat}
+              //pinColor={"navy"}
+              coordinate={{ latitude: userLat, longitude: userLng }}
+            />
+          )}
         </MapView>
       )}
       <Portal>

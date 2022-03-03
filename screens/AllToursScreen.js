@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import TourList from "../components/tourList";
 import { db } from "../firebase";
+import Appbar from "../components/appBar";
 
 const AllToursScreen = (props) => {
   const [tours, setTours] = useState([]);
@@ -20,6 +21,7 @@ const AllToursScreen = (props) => {
 
   return (
     <View>
+      {/*<Appbar props="All Tours" />*/}
       <TourList props={tours} />
     </View>
   );

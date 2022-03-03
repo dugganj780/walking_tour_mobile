@@ -2,15 +2,13 @@ import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 //import { TextInput, TouchableOpacity } from "react-native-web/src/exports/TouchableOpacity";
-import { TextInput, Button } from "react-native-paper";
-import LoginForm from "../components/loginForm";
+import { TextInput, Button, Card, Divider } from "react-native-paper";
 import { TouchableOpacity } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
 import { auth } from "../firebase";
 //import { KeyboardAvoidingView } from 'react-native-web';
 
-const LoginScreen = () => {
-  /*
+const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { register } = useAuth();
@@ -43,64 +41,46 @@ const LoginScreen = () => {
     }
     setLoading(false);
   }
-  */
 
   return (
-    <KeyboardAvoidingView style={styles.inputContainer}>
-      <LoginForm />
-    </KeyboardAvoidingView>
+    <Card style={styles.card}>
+      <Card.Content style={styles.content}>
+        <TextInput
+          label="Email"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <Divider />
+
+        <TextInput
+          label="Password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          secureTextEntry
+        />
+        <Divider />
+
+        <Button onPress={handleLoginSubmit} mode="contained">
+          Login
+        </Button>
+        <Divider />
+
+        <Button onPress={handleRegisterSubmit} mode="contained">
+          Register
+        </Button>
+      </Card.Content>
+    </Card>
   );
 };
 
-export default LoginScreen;
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputContainer: {
+  card: {
+    //margin: 5,
+    //padding: 5,
     width: "100%",
     height: "100%",
-    margin: 5,
-    alignContent: "center",
     justifyContent: "center",
-    alignSelf: "center",
-  },
-  input: {
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
-  },
-  buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-  },
-  button: {
-    backgroundColor: "blue",
-    width: "100%",
-    paddingHorizontal: 15,
-    borderRadius: 10,
-  },
-  buttonOutline: {
-    backgroundColor: "white",
-    marginTop: 5,
-    borderColor: "blue",
-    borderWidth: 2,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 16,
-  },
-  buttonOutlineText: {
-    color: "blue",
-    fontWeight: "700",
-    fontSize: 16,
   },
 });
+
+export default LoginForm;

@@ -69,7 +69,7 @@ export default function TourCard(props) {
   }
 
   async function handleTourUsageClick() {
-    navigate.navigate("Tour Usage", { uid });
+    navigate.navigate("Tour Taking", { uid });
   }
 
   async function handlePoiDetailsClick(props) {

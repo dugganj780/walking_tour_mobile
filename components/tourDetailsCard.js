@@ -3,13 +3,19 @@ import Card from "react-native-paper/src/components/Card/Card";
 import Title from "react-native-paper/src/components/Typography/Title";
 import Subheading from "react-native-paper/src/components/Typography/Subheading";
 import Button from "react-native-paper/src/components/Button";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 
 const TourDetailsCard = (props) => {
   const { uid, title, owner, city, country, image } = props.props;
+  const navigate = useNavigation();
+
+  function handlePressBack() {
+    navigate.navigate("All Tours");
+  }
 
   return (
-    <Card key={uid}>
+    <Card key={uid} height="100%">
       <Card.Cover height="33%" source={{ uri: image }} />
       <Card.Content>
         <Title>{title}</Title>
@@ -24,8 +30,8 @@ const TourDetailsCard = (props) => {
         </Subheading>
       </Card.Content>
       <Card.Actions>
-        <Button>Add Destinations</Button>
-        <Button>Delete</Button>
+        <Button>Add Tour to Account</Button>
+        <Button onPress={handlePressBack}>Back</Button>
       </Card.Actions>
     </Card>
   );
