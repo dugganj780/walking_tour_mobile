@@ -75,8 +75,6 @@ const LoginForm = () => {
 
 const styles = StyleSheet.create({
   card: {
-    //margin: 5,
-    //padding: 5,
     width: "100%",
     height: "100%",
     justifyContent: "center",

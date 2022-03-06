@@ -17,12 +17,12 @@ const theme = {
   roundness: 2,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#6F2BDB",
-    accent: "#A663CC",
-    background: "#CAE7B9",
-    surface: "#B8D0EB",
-    onSurface: "#6F2BDB",
-    //backdrop: "#B298DC",
+    primary: "#FC440F",
+    accent: "#496A81",
+    background: "#D3D0CB",
+    surface: "#D3D0CB",
+    onSurface: "#D3D0CB",
+    //backdrop: "#D3D0CB",
   },
 };
 
@@ -36,7 +36,7 @@ export default function App() {
             screenOptions={{
               headerMode: "screen",
               headerTintColor: "white",
-              headerStyle: { backgroundColor: "#6F2BDB" },
+              headerStyle: { backgroundColor: "#FC440F" },
             }}
           >
             <Stack.Screen name="Login" component={LoginScreen} />
@@ -54,7 +54,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#D3D0CB",
     alignItems: "center",
     justifyContent: "center",
   },

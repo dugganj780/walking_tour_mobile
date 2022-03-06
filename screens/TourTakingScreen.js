@@ -9,6 +9,7 @@ import { db } from "../firebase";
 import MediaPlayer from "../components/mediaPlayer";
 import Surface from "react-native-paper/src/components/Surface";
 import * as Location from "expo-location";
+import { Paragraph, Title } from "react-native-paper";
 
 const TourTakingScreen = ({ route, navigation }) => {
   const [location, setLocation] = useState(null);
@@ -21,7 +22,7 @@ const TourTakingScreen = ({ route, navigation }) => {
   const [tour, setTour] = useState(null);
   const { uid } = route.params;
   const tourId = uid;
-  const containerStyle = { backgroundColor: "white", padding: 20 };
+  const containerStyle = { backgroundColor: "#D3D0CB", padding: 20 };
 
   const getPois = async (tour) => {
     const poiRef = db.ref("pois");
@@ -101,17 +102,34 @@ const TourTakingScreen = ({ route, navigation }) => {
     let lng = location.coords.longitude;
     setCurrentLat(lat);
     setCurrentLng(lng);
+
+    for (let i in foundPois) {
+      console.log("Poi " + i + "is: " + foundPois[i].title);
+      console.log(foundPois[i].lng);
+      console.log(parseFloat(foundPois[i].lng) + 0.0001);
+      if (
+        lat <= parseFloat(foundPois[i].lat) + 0.0002 &&
+        lat >= parseFloat(foundPois[i].lat) - 0.0002 &&
+        lng <= parseFloat(foundPois[i].lng) + 0.0002 &&
+        lng >= parseFloat(foundPois[i].lng) - 0.0002
+      ) {
+        console.log("Success!");
+        calloutPressHandler(foundPois[i]);
+      }
+    }
     console.log(currentLat);
+    console.log(currentLng);
   }
 
   function calloutPressHandler(props) {
+    console.log("calloutPressHandler is running on" + props);
     setActivePoi(props);
     setModalVisible(true);
   }
 
   return (
     <>
-      <Card style={styles.card}>
+      <Card>
         {tour && (
           <Card.Content>
             <>
@@ -172,10 +190,10 @@ const TourTakingScreen = ({ route, navigation }) => {
                 </Modal>
               </Portal>
             </>
-            <Text>{tour.title}</Text>
-            <Text>{tour.city}</Text>
-            <Text>{tour.country}</Text>
-            <Text>{tour.owner}</Text>
+            <Title>Tour: {tour.title}</Title>
+            <Title>City: {tour.city}</Title>
+            <Title>Country: {tour.country}</Title>
+            <Title>Tour Guide: {tour.owner}</Title>
           </Card.Content>
         )}
         <Card.Actions>
@@ -191,14 +209,10 @@ const TourTakingScreen = ({ route, navigation }) => {
 export default TourTakingScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   map: {
-    width: Dimensions.get("window").width,
+    padding: 0,
+    margin: 0,
+    width: "100%",
     height: Dimensions.get("window").height / 2,
   },
 });

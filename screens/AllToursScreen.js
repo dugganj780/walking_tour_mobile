@@ -20,7 +20,7 @@ const AllToursScreen = (props) => {
   }, []);
 
   return (
-    <View>
+    <View style={styles.page}>
       {/*<Appbar props="All Tours" />*/}
       <TourList props={tours} />
     </View>
@@ -29,4 +29,13 @@ const AllToursScreen = (props) => {
 
 export default AllToursScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  page: {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: "100%",
+    height: "100%",
+  },
+});
