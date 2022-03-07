@@ -3,13 +3,13 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 //import { TextInput, TouchableOpacity } from "react-native-web/src/exports/TouchableOpacity";
 import { TextInput, Button } from "react-native-paper";
-import LoginForm from "../components/loginForm";
+import RegistrationForm from "../components/registrationForm";
 import { TouchableOpacity } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
 import { auth } from "../firebase";
 //import { KeyboardAvoidingView } from 'react-native-web';
 
-const LoginScreen = () => {
+const RegistrationScreen = () => {
   /*
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,12 +47,12 @@ const LoginScreen = () => {
 
   return (
     <KeyboardAvoidingView style={styles.inputContainer}>
-      <LoginForm />
+      <RegistrationForm />
     </KeyboardAvoidingView>
   );
 };
 
-export default LoginScreen;
+export default RegistrationScreen;
 
 const styles = StyleSheet.create({
   container: {

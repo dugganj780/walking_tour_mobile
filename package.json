@@ -13,6 +13,8 @@
     "@react-navigation/native": "^6.0.7",
     "@react-navigation/native-stack": "^6.3.0",
     "expo": "~44.0.0",
+    "expo-av": "~10.2.0",
+    "expo-location": "~14.0.1",
     "expo-status-bar": "~1.2.0",
     "firebase": "^9.6.5",
     "metro-react-native-babel-preset": "^0.67.0",
@@ -25,10 +27,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-unimodules": "^0.14.10",
-    "react-native-web": "0.17.1",
-    "react-native-webview-leaflet": "^5.0.2",
-    "expo-location": "~14.0.1",
-    "expo-av": "~10.2.0"
+    "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

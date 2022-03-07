@@ -128,81 +128,86 @@ const TourTakingScreen = ({ route, navigation }) => {
   }
 
   return (
-    <>
-      <Card>
-        {tour && (
-          <Card.Content>
-            <>
-              {foundPois[0] && (
-                <MapView
-                  style={styles.map}
-                  loadingEnabled={true}
-                  initialRegion={{
-                    latitude: currentLat,
-                    longitude: currentLng,
-                    latitudeDelta: 0.0022,
-                    longitudeDelta: 0.0025,
-                  }}
-                  region={{
-                    latitude: currentLat,
-                    longitude: currentLng,
-                    latitudeDelta: 0.0022,
-                    longitudeDelta: 0.0025,
-                  }}
-                >
-                  {foundPois.map((poi) => {
-                    return (
-                      <>
-                        <MapView.Marker
-                          key={poi.uid}
-                          pinColor={"navy"}
-                          coordinate={{
-                            latitude: parseFloat(poi.lat),
-                            longitude: parseFloat(poi.lng),
-                          }}
-                        >
-                          <Callout onPress={() => calloutPressHandler(poi)}>
-                            <Text>{poi.title}</Text>
-                          </Callout>
-                        </MapView.Marker>
-                      </>
-                    );
-                  })}
+    <View style={styles.container}>
+      <>
+        <Card>
+          {tour && (
+            <Card.Content>
+              <>
+                {foundPois[0] && (
+                  <MapView
+                    style={styles.map}
+                    loadingEnabled={true}
+                    initialRegion={{
+                      latitude: currentLat,
+                      longitude: currentLng,
+                      latitudeDelta: 0.0022,
+                      longitudeDelta: 0.0025,
+                    }}
+                    region={{
+                      latitude: currentLat,
+                      longitude: currentLng,
+                      latitudeDelta: 0.0022,
+                      longitudeDelta: 0.0025,
+                    }}
+                  >
+                    {foundPois.map((poi) => {
+                      return (
+                        <>
+                          <MapView.Marker
+                            key={poi.uid}
+                            pinColor={"navy"}
+                            coordinate={{
+                              latitude: parseFloat(poi.lat),
+                              longitude: parseFloat(poi.lng),
+                            }}
+                          >
+                            <Callout onPress={() => calloutPressHandler(poi)}>
+                              <Text>{poi.title}</Text>
+                            </Callout>
+                          </MapView.Marker>
+                        </>
+                      );
+                    })}
 
-                  <MapView.Marker
-                    //pinColor={"navy"}
-                    coordinate={{ latitude: currentLat, longitude: currentLng }}
-                  />
-                </MapView>
-              )}
-              <Portal>
-                <Modal
-                  //animationType="slide"
-                  //transparent={true}
-                  visible={modalVisible}
-                  contentContainerStyle={containerStyle}
-                  onDismiss={() => {
-                    //Alert.alert("Modal has been closed.");
-                    setModalVisible(false);
-                  }}
-                >
-                  {activePoi && <MediaPlayer props={activePoi} />}
-                </Modal>
-              </Portal>
-            </>
-            <Title>Tour: {tour.title}</Title>
-            <Title>City: {tour.city}</Title>
-            <Title>Country: {tour.country}</Title>
-            <Title>Tour Guide: {tour.owner}</Title>
-          </Card.Content>
-        )}
-        <Card.Actions>
-          <Button mode="contained" onPress={getLocation}>
-            Get Current Location
-          </Button>
-        </Card.Actions>
-      </Card>
-    </>
+                    <MapView.Marker
+                      //pinColor={"navy"}
+                      coordinate={{
+                        latitude: currentLat,
+                        longitude: currentLng,
+                      }}
+                    />
+                  </MapView>
+                )}
+                <Portal>
+                  <Modal
+                    //animationType="slide"
+                    //transparent={true}
+                    visible={modalVisible}
+                    contentContainerStyle={containerStyle}
+                    onDismiss={() => {
+                      //Alert.alert("Modal has been closed.");
+                      setModalVisible(false);
+                    }}
+                  >
+                    {activePoi && <MediaPlayer props={activePoi} />}
+                  </Modal>
+                </Portal>
+              </>
+              <Title>Tour: {tour.title}</Title>
+              <Title>City: {tour.city}</Title>
+              <Title>Country: {tour.country}</Title>
+              <Title>Tour Guide: {tour.owner}</Title>
+            </Card.Content>
+          )}
+          <Card.Actions>
+            <Button mode="contained" onPress={getLocation}>
+              Get Current Location
+            </Button>
+          </Card.Actions>
+        </Card>
+      </>
+    </View>
   );
 };
 
@@ -214,5 +219,10 @@ const styles = StyleSheet.create({
     margin: 0,
     width: "100%",
     height: Dimensions.get("window").height / 2,
+  },
+  container: {
+    backgroundColor: "#D3D0CB",
+    width: "100%",
+    height: "100%",
   },
 });

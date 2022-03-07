@@ -23,6 +23,8 @@ const LoginForm = () => {
       setError("");
       setLoading(true);
       await register(email, password);
+      await login(email, password);
+      navigate.navigate("Registration");
     } catch {
       setError("Failed to create an account");
     }
