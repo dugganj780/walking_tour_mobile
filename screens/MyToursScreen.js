@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import TourList from "../components/tourList";
 import { auth, db } from "../firebase";
@@ -46,10 +46,10 @@ const MyToursScreen = (props) => {
   }, []);
 
   return (
-    <View style={styles.page}>
+    <ScrollView style={styles.page}>
       {/*<Appbar props="All Tours" />*/}
       <TourList props={tours} />
-    </View>
+    </ScrollView>
   );
 };
 

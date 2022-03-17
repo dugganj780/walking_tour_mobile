@@ -12,15 +12,40 @@ import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
 //import { KeyboardAvoidingView } from 'react-native-web';
 
 const RegistrationForm = () => {
+  const [user, setUser] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
+  const [message, setMessage] = useState("");
   //const [image, setImage] = useState("");
   //const { register } = useAuth();
   //const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigation();
-  const uid = auth.currentUser.uid;
+  const currentUserUid = auth.currentUser.uid;
+
+  useEffect(() => {
+    const userRef = db.ref("users");
+    userRef.on("value", (snap) => {
+      const users = snap.val();
+      if (users !== null) {
+        Object.keys(users).forEach((uid) => {
+          if (uid === currentUserUid) {
+            // The ID is the key
+            console.log(uid);
+            // The Object is foo[key]
+            console.log(users[uid]);
+            setUser(users[uid]);
+            setFirstName(users[uid].firstName);
+            setSurname(users[uid].surname);
+            setMessage("Please Update Your Account Details Here");
+          } else {
+            setMessage("Please Enter Your Details");
+          }
+        });
+      }
+    });
+  }, []);
 
   const uploadImageHandler = (e) => {
     e.preventDefault();
@@ -76,8 +101,8 @@ const RegistrationForm = () => {
         });
         */
 
-      set(ref(db, `/users/${uid}`), {
-        uid: uid,
+      set(ref(db, `/users/${currentUserUid}`), {
+        uid: currentUserUid,
         firstName: firstName,
         surname: surname,
         //image: image,
@@ -87,7 +112,7 @@ const RegistrationForm = () => {
       setFirstName("");
       setSurname("");
       setImage("");
-      navigate.navigate("All Tours");
+      navigate.navigate("Home");
     } catch {
       setError("Failed to create an account");
     }
@@ -109,7 +134,7 @@ const RegistrationForm = () => {
 */
   return (
     <Card style={styles.card}>
-      <Card.Title title="Please Enter Your Details" />
+      <Card.Title title={message} />
       <Card.Content style={styles.content}>
         <TextInput
           label="First Name"

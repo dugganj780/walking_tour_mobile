@@ -34,7 +34,7 @@ const TourDetailsCard = (props) => {
   }, []);
 
   function handlePressBack() {
-    navigate.navigate("All Tours");
+    navigate.navigate("Home");
   }
 
   function handleAddTour() {
