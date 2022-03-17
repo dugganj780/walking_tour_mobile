@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
     alignSelf: "center",
-    backgroundColor: "#D3D0CB",
+    //backgroundColor: "#D3D0CB",
   },
   input: {
     backgroundColor: "white",

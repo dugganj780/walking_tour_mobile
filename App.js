@@ -23,7 +23,7 @@ const theme = {
     ...DefaultTheme.colors,
     primary: "#04A777",
     accent: "#496A81",
-    background: "#D3D0CB",
+    //background: "#D3D0CB",
     //surface: "#7D6D61",
     //onSurface: "#7D6D61",
     //backdrop: "#D3D0CB",
@@ -39,11 +39,11 @@ function HomeTabs() {
         headerStyle: { backgroundColor: "#04A777" },
         tabBarStyle: { backgroundColor: "#04A777" },
         tabBarActiveTintColor: "#F7C548",
-        tabBarInactiveTintColor: "white",
+        tabBarInactiveTintColor: "#D3D0CB",
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="All Tours"
         component={AllToursScreen}
         options={{
           tabBarLabel: "All Tours",
@@ -100,7 +100,7 @@ export default function App() {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Registration" component={RegistrationScreen} />
             <Stack.Screen
-              name="Home"
+              name="All Tours"
               component={HomeTabs}
               options={{ headerShown: false }}
             />

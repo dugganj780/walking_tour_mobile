@@ -38,7 +38,7 @@ export default TourDetailsScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#D3D0CB",
+    //backgroundColor: "#D3D0CB",
     width: "100%",
     height: "100%",
   },

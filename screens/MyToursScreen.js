@@ -23,25 +23,25 @@ const MyToursScreen = (props) => {
             console.log(users[uid]);
             setUser(users[uid]);
             foundUser = users[uid];
+
+            const tourRef = db.ref("tours");
+            tourRef.on("value", (snapshot) => {
+              const tour = snapshot.val();
+              const tours = [];
+              for (let id in tour) {
+                console.log("Id: " + id);
+                for (let tourId in foundUser.tours) {
+                  console.log("TourID: " + tourId);
+                  if (id === tourId) {
+                    tours.push(tour[id]);
+                  }
+                }
+              }
+              setTours(tours);
+            });
           }
         });
       }
-    });
-
-    const tourRef = db.ref("tours");
-    tourRef.on("value", (snapshot) => {
-      const tour = snapshot.val();
-      const tours = [];
-      for (let id in tour) {
-        console.log("Id: " + id);
-        for (let tourId in foundUser.tours) {
-          console.log("TourID: " + tourId);
-          if (id === tourId) {
-            tours.push(tour[id]);
-          }
-        }
-      }
-      setTours(tours);
     });
   }, []);
 
@@ -63,6 +63,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     height: "100%",
-    backgroundColor: "#D3D0CB",
+    //backgroundColor: "#D3D0CB",
   },
 });

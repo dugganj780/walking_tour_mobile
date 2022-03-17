@@ -16,6 +16,7 @@ const RegistrationForm = () => {
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [message, setMessage] = useState("");
+  const [buttonMessage, setButtonMessage] = useState("");
   //const [image, setImage] = useState("");
   //const { register } = useAuth();
   //const { login } = useAuth();
@@ -39,8 +40,10 @@ const RegistrationForm = () => {
             setFirstName(users[uid].firstName);
             setSurname(users[uid].surname);
             setMessage("Please Update Your Account Details Here");
+            setButtonMessage("Update Details");
           } else {
             setMessage("Please Enter Your Details");
+            setButtonMessage("Complete Registration");
           }
         });
       }
@@ -112,7 +115,7 @@ const RegistrationForm = () => {
       setFirstName("");
       setSurname("");
       setImage("");
-      navigate.navigate("Home");
+      navigate.navigate("All Tours");
     } catch {
       setError("Failed to create an account");
     }
@@ -155,7 +158,7 @@ const RegistrationForm = () => {
         </form>*/}
 
         <Button onPress={handleRegisterSubmit} mode="contained">
-          Complete Registration
+          {buttonMessage}
         </Button>
       </Card.Content>
     </Card>

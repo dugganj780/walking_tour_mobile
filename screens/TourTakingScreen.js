@@ -22,7 +22,7 @@ const TourTakingScreen = ({ route, navigation }) => {
   const [tour, setTour] = useState(null);
   const { uid } = route.params;
   const tourId = uid;
-  const containerStyle = { backgroundColor: "#D3D0CB", padding: 20 };
+  const containerStyle = { padding: 20 };
 
   const getPois = async (tour) => {
     const poiRef = db.ref("pois");
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height / 2,
   },
   container: {
-    backgroundColor: "#D3D0CB",
+    //backgroundColor: "#D3D0CB",
     width: "100%",
     height: "100%",
   },

@@ -37,7 +37,7 @@ const LoginForm = () => {
       setError("");
       setLoading(true);
       await login(email, password);
-      navigate.navigate("Home");
+      navigate.navigate("All Tours");
     } catch {
       setError("Failed to log in");
     }
