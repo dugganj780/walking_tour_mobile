@@ -12,7 +12,7 @@ import Title from "react-native-paper/src/components/Typography/Title";
 import Subheading from "react-native-paper/src/components/Typography/Subheading";
 //import Image from "../../public/images/home_image";
 
-export default function TourCard(props) {
+export default function MyTourCard(props) {
   const { uid, title, owner, city, country, image, poi } = props.tour;
   const navigate = useNavigation();
   const styles = StyleSheet.create({
@@ -69,10 +69,6 @@ export default function TourCard(props) {
     }
   }
   */
-
-  async function handleTourDetailsClick() {
-    navigate.navigate("Tour Details", { uid });
-  }
 
   async function handleTourUsageClick() {
     navigate.navigate("Tour Taking", { uid });
@@ -150,7 +146,7 @@ export default function TourCard(props) {
         <Subheading>Tour Guide: {owner}</Subheading>
       </Card.Content>
       <Card.Actions>
-        <Button onPress={() => handleTourDetailsClick()}>View Tour</Button>
+        <Button onPress={() => handleTourUsageClick()}>Take Tour</Button>
       </Card.Actions>
     </Card>
   );

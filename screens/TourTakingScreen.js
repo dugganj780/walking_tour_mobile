@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MapView, { Callout, Marker } from "react-native-maps";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import Button from "react-native-paper/src/components/Button";
 import Modal from "react-native-paper/src/components/Modal";
 import Portal from "react-native-paper/src/components/Portal/Portal";
@@ -9,7 +9,7 @@ import { db } from "../firebase";
 import MediaPlayer from "../components/mediaPlayer";
 import Surface from "react-native-paper/src/components/Surface";
 import * as Location from "expo-location";
-import { Paragraph, Title } from "react-native-paper";
+import { Paragraph, Title, Subheading, Text } from "react-native-paper";
 
 const TourTakingScreen = ({ route, navigation }) => {
   const [location, setLocation] = useState(null);
@@ -130,82 +130,84 @@ const TourTakingScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <>
-        <Card>
-          {tour && (
-            <Card.Content>
-              <>
-                {foundPois[0] && (
-                  <MapView
-                    style={styles.map}
-                    loadingEnabled={true}
-                    initialRegion={{
-                      latitude: currentLat,
-                      longitude: currentLng,
-                      latitudeDelta: 0.0022,
-                      longitudeDelta: 0.0025,
-                    }}
-                    region={{
-                      latitude: currentLat,
-                      longitude: currentLng,
-                      latitudeDelta: 0.0022,
-                      longitudeDelta: 0.0025,
-                    }}
-                  >
-                    {foundPois.map((poi) => {
-                      return (
-                        <>
-                          <MapView.Marker
-                            key={poi.uid}
-                            pinColor={"navy"}
-                            coordinate={{
-                              latitude: parseFloat(poi.lat),
-                              longitude: parseFloat(poi.lng),
-                            }}
-                          >
-                            <Callout onPress={() => calloutPressHandler(poi)}>
-                              <Text>{poi.title}</Text>
-                            </Callout>
-                          </MapView.Marker>
-                        </>
-                      );
-                    })}
+        {tour && (
+          <>
+            <>
+              {foundPois[0] && (
+                <MapView
+                  style={styles.map}
+                  loadingEnabled={true}
+                  initialRegion={{
+                    latitude: currentLat,
+                    longitude: currentLng,
+                    latitudeDelta: 0.0022,
+                    longitudeDelta: 0.0025,
+                  }}
+                  region={{
+                    latitude: currentLat,
+                    longitude: currentLng,
+                    latitudeDelta: 0.0022,
+                    longitudeDelta: 0.0025,
+                  }}
+                >
+                  {foundPois.map((poi) => {
+                    return (
+                      <MapView.Marker
+                        key={poi.uid}
+                        pinColor={"navy"}
+                        coordinate={{
+                          latitude: parseFloat(poi.lat),
+                          longitude: parseFloat(poi.lng),
+                        }}
+                      >
+                        <Callout onPress={() => calloutPressHandler(poi)}>
+                          <Text>{poi.title}</Text>
+                        </Callout>
+                      </MapView.Marker>
+                    );
+                  })}
 
-                    <MapView.Marker
-                      //pinColor={"navy"}
-                      coordinate={{
-                        latitude: currentLat,
-                        longitude: currentLng,
-                      }}
-                    />
-                  </MapView>
-                )}
-                <Portal>
-                  <Modal
-                    //animationType="slide"
-                    //transparent={true}
-                    visible={modalVisible}
-                    contentContainerStyle={containerStyle}
-                    onDismiss={() => {
-                      //Alert.alert("Modal has been closed.");
-                      setModalVisible(false);
+                  <MapView.Marker
+                    //pinColor={"navy"}
+                    coordinate={{
+                      latitude: currentLat,
+                      longitude: currentLng,
                     }}
-                  >
-                    {activePoi && <MediaPlayer props={activePoi} />}
-                  </Modal>
-                </Portal>
-              </>
-              <Title>Tour: {tour.title}</Title>
-              <Title>City: {tour.city}</Title>
-              <Title>Country: {tour.country}</Title>
-              <Title>Tour Guide: {tour.owner}</Title>
-            </Card.Content>
-          )}
-          <Card.Actions>
-            <Button mode="contained" onPress={getLocation}>
-              Get Current Location
-            </Button>
-          </Card.Actions>
-        </Card>
+                  />
+                </MapView>
+              )}
+              <Portal>
+                <Modal
+                  //animationType="slide"
+                  //transparent={true}
+                  visible={modalVisible}
+                  contentContainerStyle={containerStyle}
+                  onDismiss={() => {
+                    //Alert.alert("Modal has been closed.");
+                    setModalVisible(false);
+                  }}
+                >
+                  {activePoi && <MediaPlayer props={activePoi} />}
+                </Modal>
+              </Portal>
+            </>
+            <Surface style={styles.surface}>
+              <Title>Tour</Title>
+              <Subheading>{tour.title}</Subheading>
+              <Title>City</Title>
+              <Subheading>{tour.city}</Subheading>
+
+              <Title>Country</Title>
+              <Subheading>{tour.country}</Subheading>
+
+              <Title>Tour Guide</Title>
+              <Subheading>{tour.owner}</Subheading>
+              <Button mode="contained" onPress={getLocation}>
+                Get Current Location
+              </Button>
+            </Surface>
+          </>
+        )}
       </>
     </View>
   );
@@ -224,5 +226,9 @@ const styles = StyleSheet.create({
     //backgroundColor: "#D3D0CB",
     width: "100%",
     height: "100%",
+  },
+  surface: {
+    margin: 3,
+    padding: 3,
   },
 });

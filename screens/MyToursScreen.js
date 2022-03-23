@@ -8,6 +8,7 @@ const MyToursScreen = (props) => {
   const [tours, setTours] = useState([]);
   const currentUserUid = auth.currentUser.uid;
   const [user, setUser] = useState(null);
+  const myTours = true;
 
   useEffect(() => {
     let foundUser = null;
@@ -48,7 +49,7 @@ const MyToursScreen = (props) => {
   return (
     <ScrollView style={styles.page}>
       {/*<Appbar props="All Tours" />*/}
-      <TourList props={tours} />
+      <TourList props={tours} myTours />
     </ScrollView>
   );
 };
