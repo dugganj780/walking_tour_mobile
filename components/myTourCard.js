@@ -6,7 +6,7 @@ import Card from "react-native-paper/src/components/Card/Card";
 //import CardMedia from "react-native-paper/src/components/Card/Card";
 import Button from "react-native-paper/src/components/Button";
 import { useNavigation } from "@react-navigation/native";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { set, ref } from "firebase/database";
 import Title from "react-native-paper/src/components/Typography/Title";
 import Subheading from "react-native-paper/src/components/Typography/Subheading";
@@ -78,6 +78,30 @@ export default function MyTourCard(props) {
     //navigate(`/poi/${uid}`);
   }
 
+  async function handleRemoveTour(id) {
+    const userId = auth.currentUser.uid;
+
+    const userRef = db.ref("users");
+    userRef.once("value", (snap) => {
+      const users = snap.val();
+      if (users !== null) {
+        Object.keys(users).forEach((uid) => {
+          if (uid === userId) {
+            // The ID is the key
+            // The Object is foo[key]
+            console.log(users[uid]);
+            //const tourPoiRef = db.ref(`tours/${uid}/pois`);
+            db.ref(`/users/${uid}/tours/${id}`).remove();
+            //navigate(0);
+            //navigate("/tourlist");
+          } else {
+            console.log("Could not delete tour");
+          }
+        });
+      }
+    });
+  }
+
   /*
   function handleAddPoi(props) {
     const poiUid = uid;
@@ -147,6 +171,7 @@ export default function MyTourCard(props) {
       </Card.Content>
       <Card.Actions>
         <Button onPress={() => handleTourUsageClick()}>Take Tour</Button>
+        <Button onPress={() => handleRemoveTour(uid)}>Remove Tour</Button>
       </Card.Actions>
     </Card>
   );
