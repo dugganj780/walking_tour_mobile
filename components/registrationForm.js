@@ -108,6 +108,7 @@ const RegistrationForm = () => {
         uid: currentUserUid,
         firstName: firstName,
         surname: surname,
+        newUser: true,
         //image: image,
         pois: [],
       });

@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import TourList from "../components/tourList";
 import { auth, db } from "../firebase";
+import WelcomeDialog from "../components/dialogs/welcomeDialog";
 import Appbar from "../components/appBar";
 
 const MyToursScreen = (props) => {
@@ -50,6 +51,7 @@ const MyToursScreen = (props) => {
     <ScrollView style={styles.page}>
       {/*<Appbar props="All Tours" />*/}
       <TourList props={tours} myTours />
+      {user && <WelcomeDialog props={user} />}
     </ScrollView>
   );
 };
