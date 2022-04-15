@@ -154,7 +154,7 @@ const TourTakingScreen = ({ route, navigation }) => {
                     return (
                       <MapView.Marker
                         key={poi.uid}
-                        pinColor={"navy"}
+                        pinColor={"wheat"}
                         coordinate={{
                           latitude: parseFloat(poi.lat),
                           longitude: parseFloat(poi.lng),
@@ -168,7 +168,6 @@ const TourTakingScreen = ({ route, navigation }) => {
                   })}
 
                   <MapView.Marker
-                    //pinColor={"navy"}
                     coordinate={{
                       latitude: currentLat,
                       longitude: currentLng,

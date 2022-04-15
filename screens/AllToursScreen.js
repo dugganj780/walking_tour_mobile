@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import TourList from "../components/tourList";
 import { db } from "../firebase";
 import Appbar from "../components/appBar";
+import { Searchbar } from "react-native-paper";
 
 const AllToursScreen = (props) => {
   const [tours, setTours] = useState([]);
+  const [filteredTours, setFilteredTours] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const tourRef = db.ref("tours");
@@ -16,14 +19,43 @@ const AllToursScreen = (props) => {
         tours.push(tour[id]);
       }
       setTours(tours);
+      setFilteredTours(tours);
     });
   }, []);
 
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = tours.filter(function (item) {
+        const itemData = item.city ? item.city.toUpperCase() : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredTours(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredTours(tours);
+      setSearch(text);
+    }
+  };
+
   return (
-    <ScrollView style={styles.page}>
-      {/*<Appbar props="All Tours" />*/}
-      <TourList props={tours} />
-    </ScrollView>
+    <>
+      <Searchbar
+        placeholder="Search by City"
+        onChangeText={searchFilterFunction}
+        value={search}
+      />
+      <ScrollView style={styles.page}>
+        {/*<Appbar props="All Tours" />*/}
+        <TourList props={filteredTours} />
+      </ScrollView>
+    </>
   );
 };
 

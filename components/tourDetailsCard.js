@@ -7,9 +7,10 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import { set, ref } from "firebase/database";
+import { Divider } from "react-native-paper";
 
 const TourDetailsCard = (props) => {
-  const { uid, title, owner, city, country, image } = props.props;
+  const { uid, title, owner, city, country, image, description } = props.props;
   const tourId = uid;
   const navigate = useNavigation();
   const [user, setUser] = useState(null);
@@ -39,7 +40,6 @@ const TourDetailsCard = (props) => {
 
   function handleAddTour() {
     console.log(uid);
-    //user.tours.push(uid);
 
     const userRef = db.ref("users");
     userRef.once("value", (snap) => {
@@ -47,11 +47,8 @@ const TourDetailsCard = (props) => {
       if (users !== null) {
         Object.keys(users).forEach((uid) => {
           if (uid === currentUserUid) {
-            // The ID is the key
             console.log(uid);
-            // The Object is foo[key]
             console.log(users[uid]);
-            //const tourPoiRef = db.ref(`tours/${uid}/pois`);
             set(ref(db, `users/${currentUserUid}/tours/${tourId}`), { tourId });
           }
         });
@@ -74,10 +71,22 @@ const TourDetailsCard = (props) => {
         <Subheading>
           <Text>Tour Guide: {owner}</Text>
         </Subheading>
+        <Divider style={styles.divider} />
+        <Subheading>
+          <Text>{description}</Text>
+        </Subheading>
       </Card.Content>
       <Card.Actions>
-        <Button onPress={handleAddTour}>Add Tour to Account</Button>
-        <Button onPress={handlePressBack}>Back</Button>
+        <Button onPress={handleAddTour} mode="contained" style={styles.divider}>
+          Add Tour to Account
+        </Button>
+        <Button
+          onPress={handlePressBack}
+          mode="contained"
+          style={styles.divider}
+        >
+          Back
+        </Button>
       </Card.Actions>
     </Card>
   );
@@ -85,4 +94,9 @@ const TourDetailsCard = (props) => {
 
 export default TourDetailsCard;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  divider: {
+    padding: 2,
+    margin: 5,
+  },
+});

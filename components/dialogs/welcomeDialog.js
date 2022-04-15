@@ -12,7 +12,8 @@ import { auth, db, storage } from "../../firebase";
 import { set, ref } from "firebase/database";
 
 const WelcomeDialog = (props) => {
-  const { uid, newUser, firstName, surname, tours } = props.props;
+  const { uid, newUser, firstName, surname, tours, admin, tourGuide, email } =
+    props.props;
   const [visible, setVisible] = React.useState(true);
   //console.log("new user status " + JSON.stringify(props));
 
@@ -46,6 +47,9 @@ const WelcomeDialog = (props) => {
               firstName: firstName,
               surname: surname,
               tours: tours,
+              email: email,
+              admin: admin,
+              tourGuide: tourGuide,
             });
             setVisible(false);
             //navigate("/tourlist");

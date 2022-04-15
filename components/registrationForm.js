@@ -17,13 +17,11 @@ const RegistrationForm = () => {
   const [surname, setSurname] = useState("");
   const [message, setMessage] = useState("");
   const [buttonMessage, setButtonMessage] = useState("");
-  //const [image, setImage] = useState("");
-  //const { register } = useAuth();
-  //const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigation();
   const currentUserUid = auth.currentUser.uid;
+  const currentUserEmail = auth.currentUser.email;
 
   useEffect(() => {
     const userRef = db.ref("users");
@@ -85,32 +83,15 @@ const RegistrationForm = () => {
     e.preventDefault();
     try {
       e.preventDefault();
-      /*
-        console.log(title);
-        const poi = {
-          uid: uid,
-          poi: true,
-          title: title,
-          owner: owner,
-          ownerid: auth.currentUser.uid,
-          city: city,
-          lat: lat,
-          lng: lng,
-          image: image,
-          recording: recording,
-        };
-        setPois((pois) => {
-          return [...pois, poi];
-        });
-        */
-
       set(ref(db, `/users/${currentUserUid}`), {
         uid: currentUserUid,
         firstName: firstName,
         surname: surname,
         newUser: true,
-        //image: image,
-        pois: [],
+        email: currentUserEmail,
+        admin: false,
+        tourGuide: false,
+        tours: [],
       });
 
       setFirstName("");
