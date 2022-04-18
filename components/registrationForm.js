@@ -10,12 +10,13 @@ const RegistrationForm = () => {
   const [user, setUser] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
-  const [message, setMessage] = useState("");
-  const [buttonMessage, setButtonMessage] = useState("");
+  const [tours, setTours] = useState(null);
+  const [admin, setAdmin] = useState(false);
+  const [tourGuide, setTourGuide] = useState(false);
+  const [newUserWelcome, setNewUserWelcome] = useState(false);
+  const [newUserTour, setNewUserTour] = useState(false);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigation();
-
   const [userFound, setUserFound] = useState(false);
   const { logout } = useAuth();
 
@@ -29,42 +30,49 @@ const RegistrationForm = () => {
           if (uid === currentUserUid) {
             setUser(users[uid]);
             setUserFound(true);
-            console.log(userFound);
             setFirstName(users[uid].firstName);
             setSurname(users[uid].surname);
+            setTours(users[uid].tours);
+            if (users[uid].admin) {
+              setAdmin(users[uid].admin);
+            }
+            if (users[uid].tourGuide) {
+              setTourGuide(users[uid].tourGuide);
+            }
+            if (users[uid].newUserTour) {
+              setNewUserTour(users[uid].newUserTour);
+            }
+            if (users[uid].newUserWelcome) {
+              setNewUserWelcome(users[uid].newUserWelcome);
+            }
+            console.log(users[uid].admin);
           }
         });
-      }
-      if (userFound) {
-        setMessage("Please Update Your Account Details Here");
-        setButtonMessage("Update Details");
-      } else {
-        setMessage("Please Enter Your Details");
-        setButtonMessage("Complete Registration");
       }
     });
   }, []);
 
   async function handleRegisterSubmit(e) {
     e.preventDefault();
+    const currentUserUid = auth.currentUser.uid;
+    console.log(currentUserUid);
+    console.log(admin);
+
     if (!firstName || !surname) {
       setError("Field Missing. Please check your entries and update.");
     } else {
       try {
-        e.preventDefault();
         set(ref(db, `/users/${currentUserUid}`), {
           uid: currentUserUid,
           firstName: firstName,
           surname: surname,
-          newUserWelcome: true,
-          newUserTour: true,
-
+          newUserWelcome: newUserWelcome,
+          newUserTour: newUserTour,
           email: auth.currentUser.email,
-          admin: false,
-          tourGuide: false,
-          tours: [],
+          admin: admin,
+          tourGuide: tourGuide,
+          tours: tours,
         });
-
         navigate.navigate("HomeTabs");
       } catch {
         setError("Failed to create an account");
@@ -77,9 +85,35 @@ const RegistrationForm = () => {
     navigate.navigate("Login");
   }
 
+  function AccountButtons() {
+    if (userFound) {
+      return (
+        <>
+          <Button onPress={handleRegisterSubmit} mode="contained">
+            Update Details
+          </Button>
+
+          <Button onPress={handleLogout} mode="contained">
+            Logout
+          </Button>
+        </>
+      );
+    } else {
+      return (
+        <Button onPress={handleRegisterSubmit} mode="contained">
+          Complete Registration
+        </Button>
+      );
+    }
+  }
+
   return (
     <Card style={styles.card}>
-      <Card.Title title={message} />
+      {userFound && (
+        <Card.Title title={"Please Update Your Account Details Here"} />
+      )}
+      {!userFound && <Card.Title title={"Please Enter Your Details"} />}
+
       <Card.Content style={styles.content}>
         <TextInput
           label="First Name"
@@ -95,12 +129,7 @@ const RegistrationForm = () => {
         />
         <Divider />
         <Text>{error}</Text>
-        <Button onPress={handleRegisterSubmit} mode="contained">
-          {buttonMessage}
-        </Button>
-        <Button onPress={handleLogout} mode="contained">
-          Logout
-        </Button>
+        <AccountButtons />
       </Card.Content>
     </Card>
   );
