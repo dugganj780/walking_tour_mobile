@@ -1,25 +1,24 @@
 import React, { useEffect } from "react";
-import { View } from "react-native";
-import {
-  Button,
-  Paragraph,
-  Dialog,
-  Portal,
-  Provider,
-} from "react-native-paper";
-import { useAuth } from "../../contexts/AuthContext";
+import { Button, Paragraph, Dialog, Portal } from "react-native-paper";
 import { auth, db, storage } from "../../firebase";
 import { set, ref } from "firebase/database";
 
 const WelcomeDialog = (props) => {
-  const { uid, newUser, firstName, surname, tours, admin, tourGuide, email } =
-    props.props;
+  const {
+    uid,
+    newUserWelcome,
+    firstName,
+    surname,
+    tours,
+    admin,
+    tourGuide,
+    email,
+    newUserTour,
+  } = props.props;
   const [visible, setVisible] = React.useState(true);
-  //console.log("new user status " + JSON.stringify(props));
 
   useEffect(() => {
-    if (newUser) {
-      console.log("sratus is " + newUser);
+    if (newUserWelcome) {
       setVisible(true);
     } else {
       setVisible(false);
@@ -37,13 +36,10 @@ const WelcomeDialog = (props) => {
       if (users !== null) {
         Object.keys(users).forEach((uid) => {
           if (uid === userId) {
-            // The ID is the key
-            // The Object is foo[key]
-            console.log(users[uid]);
-            //const tourPoiRef = db.ref(`tours/${uid}/pois`);
             set(ref(db, `/users/${userId}`), {
               uid: userId,
-              newUser: false,
+              newUserWelcome: false,
+              newUserTour: newUserTour,
               firstName: firstName,
               surname: surname,
               tours: tours,
@@ -52,7 +48,6 @@ const WelcomeDialog = (props) => {
               tourGuide: tourGuide,
             });
             setVisible(false);
-            //navigate("/tourlist");
           } else {
             console.log("Could not edit");
           }

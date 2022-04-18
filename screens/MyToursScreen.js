@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import TourList from "../components/tourList";
 import { auth, db } from "../firebase";
 import WelcomeDialog from "../components/dialogs/welcomeDialog";
-import Appbar from "../components/appBar";
 
 const MyToursScreen = (props) => {
   const [tours, setTours] = useState([]);
@@ -19,10 +18,6 @@ const MyToursScreen = (props) => {
       if (users !== null) {
         Object.keys(users).forEach((uid) => {
           if (uid === currentUserUid) {
-            // The ID is the key
-            console.log(uid);
-            // The Object is foo[key]
-            console.log(users[uid]);
             setUser(users[uid]);
             foundUser = users[uid];
 
@@ -31,9 +26,7 @@ const MyToursScreen = (props) => {
               const tour = snapshot.val();
               const tours = [];
               for (let id in tour) {
-                console.log("Id: " + id);
                 for (let tourId in foundUser.tours) {
-                  console.log("TourID: " + tourId);
                   if (id === tourId) {
                     tours.push(tour[id]);
                   }
@@ -49,7 +42,6 @@ const MyToursScreen = (props) => {
 
   return (
     <ScrollView style={styles.page}>
-      {/*<Appbar props="All Tours" />*/}
       <TourList props={tours} myTours />
       {user && <WelcomeDialog props={user} />}
     </ScrollView>
@@ -66,6 +58,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     height: "100%",
-    //backgroundColor: "#D3D0CB",
   },
 });

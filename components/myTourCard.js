@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
 import Card from "react-native-paper/src/components/Card/Card";
-//import CardActions from "react-native-paper/src/components/Card/CardActions";
-//import CardContent from "react-native-paper/src/components/Card/CardContent";
-//import CardMedia from "react-native-paper/src/components/Card/Card";
 import Button from "react-native-paper/src/components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { db, auth } from "../firebase";
-import { set, ref } from "firebase/database";
 import Title from "react-native-paper/src/components/Typography/Title";
 import Subheading from "react-native-paper/src/components/Typography/Subheading";
-//import Image from "../../public/images/home_image";
 
 export default function MyTourCard(props) {
   const { uid, title, owner, city, country, image, poi } = props.tour;
@@ -20,62 +15,9 @@ export default function MyTourCard(props) {
       margin: 3,
     },
   });
-  //const { tourId } = useParams();
-  //const [activeTour, setActiveTour] = useState(null);
-  //const pois = [];
-
-  /*
-  useEffect(() => {
-    const tourRef = db.ref("tours");
-    tourRef.on("value", (snap) => {
-      const tours = snap.val();
-      if (tours !== null) {
-        Object.keys(tours).forEach((uid) => {
-          // The ID is the key
-          console.log(uid);
-          // The Object is foo[key]
-          console.log(tours[uid]);
-          setActiveTour(tours[uid]);
-        });
-      }
-    });
-  }, []);
-  /*
-  function PoiButtons(props) {
-    return (
-      <>
-        {activeTour && (
-          <Button onPress={() => handleAddPoi()}>Add to Tour</Button>
-        )}
-        <Button onPress={() => handlePoiDetailsClick()}>View Details</Button>
-      </>
-    );
-  }
-  
-
-  function TourButtons(props) {
-    return (
-      <>
-        <Button onPress={() => handleTourDetailsClick()}>View Tour</Button>
-      </>
-    );
-  }
-
-  function UsableButtons(props) {
-    if (poi) {
-      return <PoiButtons />;
-    } else {
-      return <TourButtons />;
-    }
-  }
-  */
 
   async function handleTourUsageClick() {
     navigate.navigate("Tour Taking", { uid });
-  }
-
-  async function handlePoiDetailsClick(props) {
-    //navigate(`/poi/${uid}`);
   }
 
   async function handleRemoveTour(id) {
@@ -87,13 +29,7 @@ export default function MyTourCard(props) {
       if (users !== null) {
         Object.keys(users).forEach((uid) => {
           if (uid === userId) {
-            // The ID is the key
-            // The Object is foo[key]
-            console.log(users[uid]);
-            //const tourPoiRef = db.ref(`tours/${uid}/pois`);
             db.ref(`/users/${uid}/tours/${id}`).remove();
-            //navigate(0);
-            //navigate("/tourlist");
           } else {
             console.log("Could not delete tour");
           }
@@ -101,58 +37,6 @@ export default function MyTourCard(props) {
       }
     });
   }
-
-  /*
-  function handleAddPoi(props) {
-    const poiUid = uid;
-    console.log(poiUid);
-
-    const tourRef = db.ref("tours");
-    tourRef.once("value", (snap) => {
-      const tours = snap.val();
-      if (tours !== null) {
-        Object.keys(tours).forEach((uid) => {
-          if (uid === tourId) {
-            // The ID is the key
-            console.log(uid);
-            // The Object is foo[key]
-            console.log(tours[uid]);
-            //const tourPoiRef = db.ref(`tours/${uid}/pois`);
-            set(ref(db, `tours/${uid}/pois/${poiUid}`), { poiUid });
-          }
-        });
-      }
-    });
-  }
-
-  
-  async function handleUpdatePois() {
-    const tourRef = db.ref("tours");
-    tourRef.on("value", (snap) => {
-      const tours = snap.val();
-      if (tours !== null) {
-        Object.keys(tours).forEach((uid) => {
-          if (uid === tourId) {
-            // The ID is the key
-            console.log(uid);
-            // The Object is foo[key]
-            console.log(tours[uid]);
-            set(ref(db, `/tours/${uid}`), {
-              uid: activeTour.uid,
-              title: activeTour.title,
-              city: activeTour.city,
-              country: activeTour.country,
-              owner: activeTour.owner,
-              image: activeTour.image,
-              pois: pois,
-            });
-          }
-        });
-      }
-    });
-    //navigate("/tourlist");
-  }
-  */
 
   return (
     <Card

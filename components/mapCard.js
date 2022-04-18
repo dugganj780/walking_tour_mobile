@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
 import MapView, { Callout, Marker } from "react-native-maps";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import Button from "react-native-paper/src/components/Button";
 import Modal from "react-native-paper/src/components/Modal";
 import Portal from "react-native-paper/src/components/Portal/Portal";
 import { db } from "../firebase";
 import MediaPlayer from "./mediaPlayer";
 
 export default function MapCard({ props, currentLat, currentLng }) {
-  console.log(currentLat);
-
-  //console.log("Current location is " + JSON.stringify(currentLocation));
-  //console.log(props);
   const { uid, title, city, pois } = props;
   const [foundPois, setFoundPois] = useState([]);
   const [activePoi, setActivePoi] = useState(null);
@@ -21,14 +16,9 @@ export default function MapCard({ props, currentLat, currentLng }) {
   const [userLat, setUserLat] = useState(0);
   const [userLng, setUserLng] = useState(0);
 
-  //const currentLat = currentLocation.currentLatLng.lat;
-  //const currentLng = currentLocation.currentLatLng.lng;
-
   useEffect(() => {
-    console.log("Current Lat is " + currentLat);
     setUserLat(currentLat);
     setUserLng(currentLng);
-    console.log("Latitude read is: " + userLat);
 
     const getPois = async () => {
       const poiRef = db.ref("pois");
@@ -52,22 +42,6 @@ export default function MapCard({ props, currentLat, currentLng }) {
   function calloutPressHandler(props) {
     setActivePoi(props);
     setModalVisible(true);
-
-    /*
-    return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(false);
-        }}
-      >
-        <MediaPlayer props={props} />
-      </Modal>
-    );
-    */
   }
 
   return (
@@ -109,8 +83,6 @@ export default function MapCard({ props, currentLat, currentLng }) {
           })}
           {userMarkerVisible && (
             <MapView.Marker
-              //key={userLat}
-              //pinColor={"navy"}
               coordinate={{ latitude: userLat, longitude: userLng }}
             />
           )}
@@ -118,12 +90,9 @@ export default function MapCard({ props, currentLat, currentLng }) {
       )}
       <Portal>
         <Modal
-          //animationType="slide"
-          //transparent={true}
           visible={modalVisible}
           contentContainerStyle={containerStyle}
           onDismiss={() => {
-            //Alert.alert("Modal has been closed.");
             setModalVisible(false);
           }}
         >
@@ -133,24 +102,6 @@ export default function MapCard({ props, currentLat, currentLng }) {
     </>
   );
 }
-
-/*
-          {currentLocation && (
-            <MapView.Marker
-              //key={poi.uid}
-              //pinColor={"navy"}
-              coordinate={{
-                latitude: parseFloat(currentLat),
-                longitude: parseFloat(currentLng),
-              }}
-            ></MapView.Marker>
-          )}
-
-
-
-
-
-*/
 
 const styles = StyleSheet.create({
   container: {

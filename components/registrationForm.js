@@ -1,15 +1,10 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
+import { StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-//import { TextInput, TouchableOpacity } from "react-native-web/src/exports/TouchableOpacity";
-import { TextInput, Button, Card, Divider } from "react-native-paper";
-import { TouchableOpacity } from "react-native";
-import { useAuth } from "../contexts/AuthContext";
-import { auth, db, storage } from "../firebase";
+import { TextInput, Button, Card, Divider, Text } from "react-native-paper";
+import { auth, db } from "../firebase";
 import { set, ref } from "firebase/database";
-import { ref as sRef } from "firebase/storage";
-import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
-//import { KeyboardAvoidingView } from 'react-native-web';
+import { useAuth } from "../contexts/AuthContext";
 
 const RegistrationForm = () => {
   const [user, setUser] = useState(null);
@@ -20,103 +15,68 @@ const RegistrationForm = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigation();
-  const currentUserUid = auth.currentUser.uid;
-  const currentUserEmail = auth.currentUser.email;
+
+  const [userFound, setUserFound] = useState(false);
+  const { logout } = useAuth();
 
   useEffect(() => {
+    const currentUserUid = auth.currentUser.uid;
     const userRef = db.ref("users");
     userRef.on("value", (snap) => {
       const users = snap.val();
       if (users !== null) {
         Object.keys(users).forEach((uid) => {
           if (uid === currentUserUid) {
-            // The ID is the key
-            console.log(uid);
-            // The Object is foo[key]
-            console.log(users[uid]);
             setUser(users[uid]);
+            setUserFound(true);
+            console.log(userFound);
             setFirstName(users[uid].firstName);
             setSurname(users[uid].surname);
-            setMessage("Please Update Your Account Details Here");
-            setButtonMessage("Update Details");
-          } else {
-            setMessage("Please Enter Your Details");
-            setButtonMessage("Complete Registration");
           }
         });
+      }
+      if (userFound) {
+        setMessage("Please Update Your Account Details Here");
+        setButtonMessage("Update Details");
+      } else {
+        setMessage("Please Enter Your Details");
+        setButtonMessage("Complete Registration");
       }
     });
   }, []);
 
-  const uploadImageHandler = (e) => {
-    e.preventDefault();
-    const file = e.target[0].files[0];
-    uploadImageFile(file);
-  };
-
-  function uploadImageFile(file) {
-    if (!file) return;
-
-    const storageRef = sRef(storage, `profileImages/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const prog = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-
-        //setProgress(prog);
-      },
-      (err) => console.log(err),
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
-          setImage(url);
-        });
-      }
-    );
-  }
-
   async function handleRegisterSubmit(e) {
     e.preventDefault();
-    try {
-      e.preventDefault();
-      set(ref(db, `/users/${currentUserUid}`), {
-        uid: currentUserUid,
-        firstName: firstName,
-        surname: surname,
-        newUser: true,
-        email: currentUserEmail,
-        admin: false,
-        tourGuide: false,
-        tours: [],
-      });
+    if (!firstName || !surname) {
+      setError("Field Missing. Please check your entries and update.");
+    } else {
+      try {
+        e.preventDefault();
+        set(ref(db, `/users/${currentUserUid}`), {
+          uid: currentUserUid,
+          firstName: firstName,
+          surname: surname,
+          newUserWelcome: true,
+          newUserTour: true,
 
-      setFirstName("");
-      setSurname("");
-      setImage("");
-      navigate.navigate("All Tours");
-    } catch {
-      setError("Failed to create an account");
+          email: auth.currentUser.email,
+          admin: false,
+          tourGuide: false,
+          tours: [],
+        });
+
+        navigate.navigate("HomeTabs");
+      } catch {
+        setError("Failed to create an account");
+      }
     }
-    setLoading(false);
   }
-  /*
-  async function handleLoginSubmit(e) {
-    e.preventDefault();
-    try {
-      setError("");
-      setLoading(true);
-      await login(email, password);
-      navigate.navigate("All Tours");
-    } catch {
-      setError("Failed to log in");
-    }
-    setLoading(false);
+
+  async function handleLogout() {
+    await logout();
+    navigate.navigate("Login");
   }
-*/
+
   return (
     <Card style={styles.card}>
       <Card.Title title={message} />
@@ -134,13 +94,12 @@ const RegistrationForm = () => {
           onChangeText={(text) => setSurname(text)}
         />
         <Divider />
-        {/*<form onSubmit={uploadImageHandler}>
-          <input type="file" className="input" />
-          <button type="submit">Upload Profile Image</button>
-        </form>*/}
-
+        <Text>{error}</Text>
         <Button onPress={handleRegisterSubmit} mode="contained">
           {buttonMessage}
+        </Button>
+        <Button onPress={handleLogout} mode="contained">
+          Logout
         </Button>
       </Card.Content>
     </Card>

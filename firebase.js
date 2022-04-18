@@ -14,8 +14,6 @@ const app = firebase.initializeApp({
   measurementId: "G-RBFSSCJ04F",
 });
 
-console.log(app.apiKey);
-
 export const auth = app.auth();
 export const db = firebase.database();
 export const storage = getStorage(app);

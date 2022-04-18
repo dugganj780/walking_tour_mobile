@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import TourList from "../components/tourList";
 import { db } from "../firebase";
-import Appbar from "../components/appBar";
 import { Searchbar } from "react-native-paper";
 
 const AllToursScreen = (props) => {
@@ -24,11 +23,7 @@ const AllToursScreen = (props) => {
   }, []);
 
   const searchFilterFunction = (text) => {
-    // Check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
       const newData = tours.filter(function (item) {
         const itemData = item.city ? item.city.toUpperCase() : "".toUpperCase();
         const textData = text.toUpperCase();
@@ -37,8 +32,6 @@ const AllToursScreen = (props) => {
       setFilteredTours(newData);
       setSearch(text);
     } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
       setFilteredTours(tours);
       setSearch(text);
     }
@@ -52,7 +45,6 @@ const AllToursScreen = (props) => {
         value={search}
       />
       <ScrollView style={styles.page}>
-        {/*<Appbar props="All Tours" />*/}
         <TourList props={filteredTours} />
       </ScrollView>
     </>
@@ -69,6 +61,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     height: "100%",
-    //backgroundColor: "#D3D0CB",
   },
 });

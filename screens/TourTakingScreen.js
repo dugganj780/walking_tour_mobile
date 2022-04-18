@@ -4,12 +4,12 @@ import { StyleSheet, View, Dimensions } from "react-native";
 import Button from "react-native-paper/src/components/Button";
 import Modal from "react-native-paper/src/components/Modal";
 import Portal from "react-native-paper/src/components/Portal/Portal";
-import Card from "react-native-paper/src/components/Card/Card";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import MediaPlayer from "../components/mediaPlayer";
 import Surface from "react-native-paper/src/components/Surface";
 import * as Location from "expo-location";
-import { Paragraph, Title, Subheading, Text } from "react-native-paper";
+import { Title, Subheading, Text } from "react-native-paper";
+import TourDialog from "../components/dialogs/tourDialog";
 
 const TourTakingScreen = ({ route, navigation }) => {
   const [location, setLocation] = useState(null);
@@ -20,6 +20,7 @@ const TourTakingScreen = ({ route, navigation }) => {
   const [activePoi, setActivePoi] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [tour, setTour] = useState(null);
+  const [user, setUser] = useState(null);
   const { uid } = route.params;
   const tourId = uid;
   const containerStyle = { padding: 20 };
@@ -56,27 +57,20 @@ const TourTakingScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  /*
   useEffect(() => {
-    const getPois = async () => {
-      const poiRef = db.ref("pois");
-      poiRef.on("value", (snapshot) => {
-        const poi = snapshot.val();
-        const dbPois = [];
-        const keys = Object.keys(tour.pois);
-        for (let id in poi) {
-          keys.forEach((key, index) => {
-            if (key === id) {
-              dbPois.push(poi[id]);
-            }
-          });
-        }
-        setFoundPois(dbPois);
-      });
-    };
-    getPois();
+    const currentUserUid = auth.currentUser.uid;
+    const userRef = db.ref("users");
+    userRef.on("value", (snap) => {
+      const users = snap.val();
+      if (users !== null) {
+        Object.keys(users).forEach((uid) => {
+          if (uid === currentUserUid) {
+            setUser(users[uid]);
+          }
+        });
+      }
+    });
   }, []);
-  */
 
   useEffect(() => {
     (async () => {
@@ -96,7 +90,6 @@ const TourTakingScreen = ({ route, navigation }) => {
   }, []);
 
   async function getLocation() {
-    console.log("button pressed");
     let location = await Location.getCurrentPositionAsync({});
     let lat = location.coords.latitude;
     let lng = location.coords.longitude;
@@ -104,25 +97,18 @@ const TourTakingScreen = ({ route, navigation }) => {
     setCurrentLng(lng);
 
     for (let i in foundPois) {
-      console.log("Poi " + i + "is: " + foundPois[i].title);
-      console.log(foundPois[i].lng);
-      console.log(parseFloat(foundPois[i].lng) + 0.0001);
       if (
         lat <= parseFloat(foundPois[i].lat) + 0.0002 &&
         lat >= parseFloat(foundPois[i].lat) - 0.0002 &&
         lng <= parseFloat(foundPois[i].lng) + 0.0002 &&
         lng >= parseFloat(foundPois[i].lng) - 0.0002
       ) {
-        console.log("Success!");
         calloutPressHandler(foundPois[i]);
       }
     }
-    console.log(currentLat);
-    console.log(currentLng);
   }
 
   function calloutPressHandler(props) {
-    console.log("calloutPressHandler is running on" + props);
     setActivePoi(props);
     setModalVisible(true);
   }
@@ -162,6 +148,7 @@ const TourTakingScreen = ({ route, navigation }) => {
                       >
                         <Callout onPress={() => calloutPressHandler(poi)}>
                           <Text>{poi.title}</Text>
+                          <Text>Press to Hear</Text>
                         </Callout>
                       </MapView.Marker>
                     );
@@ -177,12 +164,9 @@ const TourTakingScreen = ({ route, navigation }) => {
               )}
               <Portal>
                 <Modal
-                  //animationType="slide"
-                  //transparent={true}
                   visible={modalVisible}
                   contentContainerStyle={containerStyle}
                   onDismiss={() => {
-                    //Alert.alert("Modal has been closed.");
                     setModalVisible(false);
                   }}
                 >
@@ -208,6 +192,7 @@ const TourTakingScreen = ({ route, navigation }) => {
           </>
         )}
       </>
+      {user && <TourDialog props={user} />}
     </View>
   );
 };
@@ -222,7 +207,6 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height / 2,
   },
   container: {
-    //backgroundColor: "#D3D0CB",
     width: "100%",
     height: "100%",
   },

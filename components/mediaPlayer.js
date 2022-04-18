@@ -64,7 +64,6 @@ const MediaPlayer = (props) => {
       const status = result.positionMillis;
       sound.setPositionAsync(status + 10000);
     });
-    //console.log(status);
   }
 
   async function skipBack() {

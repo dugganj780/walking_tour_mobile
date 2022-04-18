@@ -1,50 +1,8 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-//import { TextInput, TouchableOpacity } from "react-native-web/src/exports/TouchableOpacity";
-import { TextInput, Button } from "react-native-paper";
+import { StyleSheet, KeyboardAvoidingView } from "react-native";
+import React from "react";
 import RegistrationForm from "../components/registrationForm";
-import { TouchableOpacity } from "react-native";
-import { useAuth } from "../contexts/AuthContext";
-import { auth } from "../firebase";
-//import { KeyboardAvoidingView } from 'react-native-web';
 
 const RegistrationScreen = () => {
-  /*
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { register } = useAuth();
-  const { login } = useAuth();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigation();
-
-  async function handleRegisterSubmit(e) {
-    e.preventDefault();
-    try {
-      setError("");
-      setLoading(true);
-      await register(email, password);
-    } catch {
-      setError("Failed to create an account");
-    }
-    setLoading(false);
-  }
-
-  async function handleLoginSubmit(e) {
-    e.preventDefault();
-    try {
-      setError("");
-      setLoading(true);
-      await login(email, password);
-      navigate.navigate("All Tours");
-    } catch {
-      setError("Failed to log in");
-    }
-    setLoading(false);
-  }
-  */
-
   return (
     <KeyboardAvoidingView style={styles.inputContainer}>
       <RegistrationForm />
@@ -66,7 +24,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
     alignSelf: "center",
-    //backgroundColor: "#D3D0CB",
   },
   input: {
     backgroundColor: "white",

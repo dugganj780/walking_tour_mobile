@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import Card from "react-native-paper/src/components/Card/Card";
 import Title from "react-native-paper/src/components/Typography/Title";
 import Subheading from "react-native-paper/src/components/Typography/Subheading";
@@ -23,10 +23,6 @@ const TourDetailsCard = (props) => {
       if (users !== null) {
         Object.keys(users).forEach((uid) => {
           if (uid === currentUserUid) {
-            // The ID is the key
-            console.log(uid);
-            // The Object is foo[key]
-            console.log(users[uid]);
             setUser(users[uid]);
           }
         });
@@ -39,16 +35,12 @@ const TourDetailsCard = (props) => {
   }
 
   function handleAddTour() {
-    console.log(uid);
-
     const userRef = db.ref("users");
     userRef.once("value", (snap) => {
       const users = snap.val();
       if (users !== null) {
         Object.keys(users).forEach((uid) => {
           if (uid === currentUserUid) {
-            console.log(uid);
-            console.log(users[uid]);
             set(ref(db, `users/${currentUserUid}/tours/${tourId}`), { tourId });
           }
         });

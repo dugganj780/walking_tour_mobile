@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -23,10 +22,6 @@ const theme = {
     ...DefaultTheme.colors,
     primary: "#04A777",
     accent: "#496A81",
-    //background: "#D3D0CB",
-    //surface: "#7D6D61",
-    //onSurface: "#7D6D61",
-    //backdrop: "#D3D0CB",
   },
 };
 
@@ -43,20 +38,6 @@ function HomeTabs() {
       }}
     >
       <Tab.Screen
-        name="All Tours"
-        component={AllToursScreen}
-        options={{
-          tabBarLabel: "All Tours",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="map-outline"
-              color={color}
-              size={size}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="My Tours"
         component={MyToursScreen}
         options={{
@@ -70,6 +51,21 @@ function HomeTabs() {
           ),
         }}
       />
+      <Tab.Screen
+        name="All Tours"
+        component={AllToursScreen}
+        options={{
+          tabBarLabel: "All Tours",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="map-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+
       <Tab.Screen
         name="My Profile"
         component={RegistrationScreen}
@@ -85,7 +81,6 @@ function HomeTabs() {
 }
 
 export default function App() {
-  console.log(require("./assets/favicon.png"));
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
@@ -100,18 +95,12 @@ export default function App() {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Registration" component={RegistrationScreen} />
             <Stack.Screen
-              name="All Tours"
+              name="HomeTabs"
               component={HomeTabs}
               options={{ headerShown: false }}
             />
             <Stack.Screen name="Tour Details" component={TourDetailsScreen} />
             <Stack.Screen name="Tour Taking" component={TourTakingScreen} />
-
-            {/*
-            <Stack.Screen name="All Tours" component={AllToursScreen} />
-            <Stack.Screen name="My Tours" component={MyToursScreen} />
-
-          */}
           </Stack.Navigator>
         </AuthProvider>
       </NavigationContainer>

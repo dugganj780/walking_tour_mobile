@@ -9,8 +9,6 @@ const TourDetailsScreen = ({ route, navigation }) => {
 
   const [tour, setTour] = useState(null);
 
-  //const fooRef = rootRef.child("foo");
-
   useEffect(() => {
     const tourRef = db.ref("tours");
     tourRef.on("value", (snap) => {
@@ -18,8 +16,6 @@ const TourDetailsScreen = ({ route, navigation }) => {
       if (tours !== null) {
         Object.keys(tours).forEach((uid) => {
           if (uid === tourId) {
-            // The ID is the key
-            // The Object is foo[key]
             setTour(tours[uid]);
           }
         });
@@ -38,7 +34,6 @@ export default TourDetailsScreen;
 
 const styles = StyleSheet.create({
   container: {
-    //backgroundColor: "#D3D0CB",
     width: "100%",
     height: "100%",
   },
