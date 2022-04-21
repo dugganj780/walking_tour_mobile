@@ -2,6 +2,10 @@
   "name": "walking_tour_mobile",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "engines": {
+    "node": "^14.15.4",
+    "npm": "^6.14.10"
+  },
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
